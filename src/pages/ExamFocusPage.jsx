@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import MathText from '../components/MathText';
 import { examVariant2025 } from '../data/examVariant2025';
 import { module3, module4, module3ToModule4, preparationPriority } from '../data/semesterClassification';
+import { variantsForRealProblem } from '../data/examTrainerData';
 
 function TopicRows({ module }) {
   return (
@@ -38,6 +39,10 @@ export default function ExamFocusPage() {
             <span><strong>{examVariant2025.totalWeight}</strong> баллов</span>
             <span><strong>21</strong> официальный тип</span>
           </div>
+          <div className="exam-trainer-actions">
+            <Link className="primary-button" to="/exam-2025/preparation">21 задача с решениями</Link>
+            <a className="secondary-button" href="#practice-variants">Вариации реального экзамена</a>
+          </div>
         </div>
       </header>
 
@@ -60,6 +65,29 @@ export default function ExamFocusPage() {
           <b>Главный приоритет подготовки</b>
           <TopicRows module={module4} />
         </article>
+      </section>
+
+      <section className="practice-variants-section" id="practice-variants">
+        <div className="section-heading section-heading-inline">
+          <div><p className="eyebrow">Не заучивать один билет</p><h2>Две вариации на каждую реальную задачу</h2></div>
+          <p>Сначала закрепите тот же приём на чистых числах, затем перенесите идею в более сложную ситуацию.</p>
+        </div>
+        <div className="practice-variant-groups">
+          {examVariant2025.problems.map((problem) => (
+            <article key={problem.number}>
+              <div className="practice-variant-heading"><span>Реальная № {problem.number}</span><h3>{problem.title}</h3></div>
+              <div>
+                {variantsForRealProblem(problem.number).map((variant) => (
+                  <Link key={variant.id} to={`/exam-2025/${problem.number}/practice/${variant.variantId}`}>
+                    <small>{variant.difficulty.label}</small>
+                    <strong>{variant.title}</strong>
+                    <span>Решить и разобрать →</span>
+                  </Link>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="real-ticket-section" aria-labelledby="ticket-title">
@@ -96,10 +124,15 @@ export default function ExamFocusPage() {
             <article key={type.id}>
               <span>{type.officialProblemNumbers.map((number) => `№${number}`).join(', ')}</span>
               <h3>{type.title}</h3>
-              <Link to={`/problems/problems-exam/${type.officialProblemNumbers[0]}`}>Открыть официальный разбор →</Link>
+              <Link to={`/exam-2025/preparation/${type.officialProblemNumbers[0]}`}>Открыть разбор в тренажёре →</Link>
             </article>
           ))}
         </div>
+        <Link className="exam-preparation-cta" to="/exam-2025/preparation">
+          <span>Полная программа</span>
+          <div><h3>Все 21 задача — с подсказками, решением и самопроверкой</h3><p>От линейных оболочек до SVD и поверхностей второго порядка.</p></div>
+          <b>Открыть тренажёр →</b>
+        </Link>
       </section>
     </main>
   );

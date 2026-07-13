@@ -7,6 +7,7 @@ const links = [
   ['/proofs', 'Доказательства'],
   ['/problems', 'Задачи'],
   ['/exam-2025', 'Экзамен 2025'],
+  ['/exam-2025/preparation', 'Тренажёр'],
   ['/lectures', 'Лекции'],
   ['/glossary', 'Словарь'],
 ];

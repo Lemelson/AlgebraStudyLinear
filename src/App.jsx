@@ -12,6 +12,9 @@ const CorpusDetailPage = lazy(() => import('./pages/CorpusDetailPage'));
 const GlossaryPage = lazy(() => import('./pages/GlossaryPage'));
 const ExamFocusPage = lazy(() => import('./pages/ExamFocusPage'));
 const ExamVariantProblemPage = lazy(() => import('./pages/ExamVariantProblemPage'));
+const ExamPreparationPage = lazy(() => import('./pages/ExamPreparationPage'));
+const ExamPreparationProblemPage = lazy(() => import('./pages/ExamPreparationProblemPage'));
+const ExamGeneratedVariantPage = lazy(() => import('./pages/ExamGeneratedVariantPage'));
 
 export default function App() {
   return (
@@ -29,6 +32,9 @@ export default function App() {
           <Route path="/problems" element={<CollectionPage kind="problems" />} />
           <Route path="/problems/:groupId/:number" element={<CorpusDetailPage kind="problems" />} />
           <Route path="/exam-2025" element={<ExamFocusPage />} />
+          <Route path="/exam-2025/preparation" element={<ExamPreparationPage />} />
+          <Route path="/exam-2025/preparation/:number" element={<ExamPreparationProblemPage />} />
+          <Route path="/exam-2025/:number/practice/:variantId" element={<ExamGeneratedVariantPage />} />
           <Route path="/exam-2025/:number" element={<ExamVariantProblemPage />} />
           <Route path="/lectures" element={<LecturesPage />} />
           <Route path="/lectures/:slug" element={<LectureDetailPage />} />

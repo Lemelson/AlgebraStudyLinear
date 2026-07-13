@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import MathText from '../components/MathText';
 import { examVariant2025 } from '../data/examVariant2025';
+import { variantsForRealProblem } from '../data/examTrainerData';
 
 export default function ExamVariantProblemPage() {
   const { number } = useParams();
@@ -9,6 +10,7 @@ export default function ExamVariantProblemPage() {
   if (!problem) return <main className="page-shell empty-state"><h1>Задача не найдена</h1><Link to="/exam-2025">Вернуться к варианту</Link></main>;
   const previous = examVariant2025.problems[index - 1];
   const next = examVariant2025.problems[index + 1];
+  const practiceVariants = variantsForRealProblem(problem.number);
 
   return (
     <main className="page-shell exam-problem-page">
@@ -53,6 +55,11 @@ export default function ExamVariantProblemPage() {
       <section className="related-official-section">
         <div className="section-heading"><p className="eyebrow">После этой задачи</p><h2>Похожие официальные типы</h2></div>
         <div>{problem.relatedOfficialProblems.map((item) => <Link key={`${item.number}-${item.title}`} to={item.href}><span>Официальная № {item.number}</span><h3>{item.title}</h3><p>{item.relation}</p><b>Открыть разбор →</b></Link>)}</div>
+      </section>
+
+      <section className="related-official-section">
+        <div className="section-heading"><p className="eyebrow">Проверить понимание</p><h2>Ещё две задачи на ту же идею</h2></div>
+        <div>{practiceVariants.map((variant) => <Link key={variant.id} to={`/exam-2025/${problem.number}/practice/${variant.variantId}`}><span>{variant.difficulty.label}</span><h3>{variant.title}</h3><p>{variant.difficulty.rationale}</p><b>Решить вариант →</b></Link>)}</div>
       </section>
 
       <nav className="exam-problem-pagination" aria-label="Навигация по реальному варианту">

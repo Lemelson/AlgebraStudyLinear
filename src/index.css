@@ -529,6 +529,31 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .math-text span span { color: inherit; font-family: KaTeX_Main, "Times New Roman", serif; font-size: inherit; font-style: normal; font-weight: normal; line-height: 1.2; text-transform: none; letter-spacing: normal; }
 .math-text .katex-error { color: var(--danger, #b42318); font-size: 1em; text-transform: none; }
 
+.exam-trainer-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.exam-trainer-actions .primary-button, .exam-trainer-actions .secondary-button { display: inline-flex; align-items: center; justify-content: center; }
+.collection-toolbar select { min-height: 46px; padding: 0 38px 0 14px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); color: var(--ink); font: inherit; }
+.practice-variants-section { padding-top: 96px; scroll-margin-top: 88px; }
+.practice-variant-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.practice-variant-groups > article { display: grid; grid-template-columns: minmax(150px, .48fr) 1fr; min-width: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.practice-variant-heading { padding: 24px; background: #ece9df; }
+.practice-variant-heading span, .practice-variant-groups a small { display: block; margin-bottom: 9px; color: var(--muted); font-size: 11px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.practice-variant-heading h3 { margin: 0; font-family: var(--display); font-size: 24px; line-height: 1.03; }
+.practice-variant-groups article > div:last-child { display: grid; }
+.practice-variant-groups a { display: grid; gap: 7px; padding: 20px 22px; color: inherit; border-bottom: 1px solid var(--line); transition: background .18s ease; }
+.practice-variant-groups a:last-child { border-bottom: 0; }
+.practice-variant-groups a:hover { background: #f4f1e8; }
+.practice-variant-groups a strong { font-size: 15px; line-height: 1.35; }
+.practice-variant-groups a span { color: var(--accent); font-size: 12px; font-weight: 700; }
+.exam-preparation-cta { display: grid; grid-template-columns: 130px 1fr auto; align-items: center; gap: 24px; margin-top: 34px; padding: 26px 28px; color: #f7f3e8; background: var(--ink); }
+.exam-preparation-cta > span { color: #b8c7ab; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.exam-preparation-cta h3 { margin: 0 0 5px; font-family: var(--display); font-size: 27px; }
+.exam-preparation-cta p { margin: 0; color: #cdc8bc; }
+.exam-preparation-cta b { color: #d4e1c8; white-space: nowrap; }
+.exam-difficulty-rationale { max-width: 760px; color: var(--muted); line-height: 1.55; }
+.expanded-guide > .primary-button { border: 0; cursor: pointer; }
+.strict-steps li > .secondary-button { width: fit-content; margin-top: 14px; border: 1px solid var(--line); cursor: pointer; }
+.strict-steps li > aside { margin-top: 12px; padding: 14px 16px; background: #ece9df; }
+
 .reveal { animation: reveal .6s cubic-bezier(.16,1,.3,1) both; animation-delay: var(--delay, 0ms); }
 @keyframes reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -592,6 +617,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .section-heading-inline { display: block; }
   .section-heading-inline > p { margin-top: 20px; }
   .real-ticket-grid, .exam-check-grid, .related-official-section > div:last-child, .exam-problem-pagination { grid-template-columns: 1fr; }
+  .practice-variant-groups { grid-template-columns: 1fr; }
+  .exam-preparation-cta { grid-template-columns: 1fr; align-items: start; }
   .bridge-section ol, .official-type-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .official-type-grid article,
   .official-type-grid article:not(:nth-child(3n+1)) { padding: 24px; border-left: 0; }
@@ -631,6 +658,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .exam-photo-card img { max-height: 420px; }
   .section-heading h2 { font-size: 38px; }
   .real-ticket-section, .bridge-section, .official-types-section { padding-top: 70px; }
+  .practice-variants-section { padding-top: 70px; }
+  .practice-variant-groups > article { grid-template-columns: 1fr; }
   .real-ticket-grid a { padding: 24px 20px; }
   .ticket-card-footer { display: block; }
   .ticket-card-footer span { display: block; max-width: none; margin-bottom: 14px; }
