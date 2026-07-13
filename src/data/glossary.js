@@ -1,3 +1,5 @@
+import { glossaryEnrichment } from './glossaryEnrichment.js';
+
 const definition = (group, number) => `/definitions/${group}/${number}`;
 
 const t = (id, term, aliases, short, child, analogy, example, notThis, topicId, definitionLink = null) => ({
@@ -13,7 +15,7 @@ const t = (id, term, aliases, short, child, analogy, example, notThis, topicId, 
   definitionLink,
 });
 
-export const glossary = [
+const glossaryBase = [
   // Язык математики и кольца
   t('set', 'Множество', ['множества', 'множеству', 'множеством'], 'Набор объектов, которые мы решили рассматривать вместе.', 'Представь коробку с игрушками. Коробка — это множество, а каждая игрушка внутри — элемент. Игрушки могут быть совсем разными; важно только ясно понимать, что лежит в коробке, а что нет.', 'Коробка с выбранными предметами.', 'Множество {1, 2, 3} содержит три числа.', 'Множество не обязано быть упорядоченным списком: {1,2} и {2,1} — одно множество.', 'rings-fields'),
   t('element', 'Элемент', ['элемента', 'элементу', 'элементом', 'элементы'], 'Один объект, входящий в множество.', 'Если множество — коробка, элемент — одна конкретная вещь из неё. Буквой a часто называют предмет, а буквой A — всю коробку.', 'Одна игрушка из коробки.', 'Число 2 — элемент множества {1,2,3}.', 'Элемент и множество — разные уровни: число 2 не равно множеству {2}.', 'rings-fields'),
@@ -135,6 +137,21 @@ export const glossary = [
   t('riesz-isomorphism', 'Изоморфизм Рисса', ['изоморфизма Рисса', 'отождествление V и V*'], 'Соответствие v↦⟨·,v⟩ между конечномерным евклидовым пространством и его двойственным.', 'Скалярное произведение превращает каждую стрелку v в датчик: датчик подставляет x и измеряет, насколько x направлен вдоль v.', 'Сделать из направления измерительную линейку.', 'J(v)(x)=⟨x,v⟩.', 'Соответствие зависит от скалярного произведения и не является естественным без него.', 'geometry-dual', definition('definitions-exam', 16)),
 ];
 
+const normalizeExample = (item) => typeof item === 'string' ? { text: item } : item;
+
+export const glossary = glossaryBase.map((entry) => {
+  const enrichment = glossaryEnrichment[entry.id] ?? {};
+  return {
+    ...entry,
+    ...enrichment,
+    aliases: [...new Set([...entry.aliases, ...(enrichment.aliases ?? [])])],
+    perspectives: enrichment.perspectives ?? [],
+    analogies: enrichment.analogies ?? [entry.analogy],
+    examples: (enrichment.examples ?? [entry.example]).map(normalizeExample),
+    related: enrichment.related ?? [],
+  };
+});
+
 export const glossaryById = Object.fromEntries(glossary.map((entry) => [entry.id, entry]));
 
 if (Object.keys(glossaryById).length !== glossary.length) {
@@ -157,14 +174,20 @@ export const glossaryAliases = [...normalizedAliasOwners.entries()]
   .map(([alias, id]) => ({ alias, id }))
   .sort((a, b) => b.alias.length - a.alias.length || a.alias.localeCompare(b.alias, 'ru'));
 
-const requiredFields = ['id', 'term', 'aliases', 'short', 'child', 'analogy', 'example', 'notThis', 'topicId', 'definitionLink'];
+// Односимвольные обозначения вроде 0, 1 и σ полезны для поиска, но не должны
+// превращать каждую формулу в россыпь вложенных кнопок-подсказок.
+export const glossaryProseAliases = glossaryAliases.filter(({ alias }) => (alias.match(/\p{L}/gu) ?? []).length >= 2);
+
+const requiredFields = ['id', 'term', 'aliases', 'short', 'child', 'analogies', 'examples', 'perspectives', 'related', 'notThis', 'topicId', 'definitionLink'];
 const topicCounts = glossary.reduce((counts, entry) => ({
   ...counts,
   [entry.topicId]: (counts[entry.topicId] ?? 0) + 1,
 }), {});
 const invalidEntries = glossary
-  .filter((entry) => requiredFields.some((field) => entry[field] === undefined || entry[field] === ''))
+  .filter((entry) => requiredFields.some((field) => entry[field] === undefined || entry[field] === '' || (Array.isArray(entry[field]) && field !== 'perspectives' && field !== 'related' && entry[field].length === 0)))
   .map((entry) => entry.id);
+
+export const enrichedGlossaryIds = Object.keys(glossaryEnrichment);
 
 export const glossaryCoverage = {
   total: glossary.length,

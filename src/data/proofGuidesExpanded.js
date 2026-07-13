@@ -506,9 +506,9 @@ const content = {
 };
 
 function attachExactStatements(items) {
-  return Object.fromEntries(items.map(({ groupId, number, text }) => {
+  return Object.fromEntries(items.flatMap(({ groupId, number, text }) => {
     const key = `${groupId}:${number}`;
-    return [key, { key, groupId, number, exactStatement: text, ...content[key] }];
+    return content[key] ? [[key, { key, groupId, number, exactStatement: text, ...content[key] }]] : [];
   }));
 }
 

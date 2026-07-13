@@ -8,6 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "test:exam": "node src/data/examTrainerData.test.mjs",
+    "test:lectures": "node src/data/lectureContent.test.mjs",
+    "test:topics": "node src/data/topicMastery.test.mjs",
+    "test:control": "node src/data/controlTopics.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,7 +18,11 @@
     "lucide-react": "^1.7.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.13.2"
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.13.2",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

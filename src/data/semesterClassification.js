@@ -29,7 +29,7 @@ export const module3 = {
       title: 'Полугруппы, моноиды и группы',
       scope: 'current-official',
       priority: 'high',
-      siteTopicIds: ['rings-fields'],
+      siteTopicIds: ['group-foundations'],
       exactTopics: ['ассоциативность', 'нейтральный и обратный элементы', 'абелевы группы', 'симметрическая, общая линейная, специальная линейная, диэдральная и знакопеременная группы'],
     },
     {
@@ -37,7 +37,7 @@ export const module3 = {
       title: 'Циклические и конечные группы',
       scope: 'current-official',
       priority: 'critical',
-      siteTopicIds: ['rings-fields'],
+      siteTopicIds: ['cyclic-groups'],
       exactTopics: ['порядок элемента', 'циклическая группа', 'подгруппы циклической группы', 'прямое произведение', 'таблица Кэли', 'теоремы Лагранжа и Кэли'],
     },
     {
@@ -45,7 +45,7 @@ export const module3 = {
       title: 'Гомоморфизмы, нормальные подгруппы и факторгруппы',
       scope: 'current-official',
       priority: 'critical',
-      siteTopicIds: ['rings-fields'],
+      siteTopicIds: ['quotient-groups'],
       exactTopics: ['ядро и образ гомоморфизма', 'инъективность и сюръективность', 'смежные классы и индекс', 'нормальность', 'естественный гомоморфизм', 'первая теорема о гомоморфизме', 'автоморфизмы и центр группы'],
     },
     {
@@ -53,7 +53,7 @@ export const module3 = {
       title: 'Кольца, поля и факторкольца многочленов',
       scope: 'current-official',
       priority: 'critical',
-      siteTopicIds: ['rings-fields'],
+      siteTopicIds: ['control-rings-fields', 'quotient-rings'],
       exactTopics: ['кольца и делители нуля', 'целостные кольца и поля', 'характеристика и простое подполе', 'идеалы и гомоморфизмы колец', 'конечные поля', 'арифметика в F_p[x]/(f)', 'алгоритм Евклида и тождество Безу для многочленов'],
     },
     {
@@ -61,7 +61,7 @@ export const module3 = {
       title: 'Линейные пространства, базисы и оболочки',
       scope: 'current-official',
       priority: 'critical',
-      siteTopicIds: ['vector-spaces'],
+      siteTopicIds: ['control-vector-spaces'],
       exactTopics: ['аксиомы линейного пространства', 'линейная независимость', 'базис и размерность', 'подпространство', 'линейная оболочка', 'ранг системы векторов', 'базис пространства решений СЛУ'],
     },
     {
@@ -69,7 +69,7 @@ export const module3 = {
       title: 'Координаты и замена базиса',
       scope: 'current-official',
       priority: 'critical',
-      siteTopicIds: ['vector-spaces'],
+      siteTopicIds: ['control-vector-spaces'],
       exactTopics: ['матрица перехода', 'координаты вектора в двух базисах', 'формула изменения координат'],
     },
     {

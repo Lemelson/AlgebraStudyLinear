@@ -3,6 +3,7 @@ import MathText from '../components/MathText';
 import { examVariant2025 } from '../data/examVariant2025';
 import { module3, module4, module3ToModule4, preparationPriority } from '../data/semesterClassification';
 import { variantsForRealProblem } from '../data/examTrainerData';
+import { controlTopicIds } from '../data/controlCurriculum';
 
 function TopicRows({ module }) {
   return (
@@ -17,7 +18,7 @@ function TopicRows({ module }) {
             </div>
             <p>{topic.exactTopics.join(' · ')}</p>
             <div className="topic-jump-links">
-              {topic.siteTopicIds.map((id) => <Link key={id} to={`/topics/${id}`}>Открыть учебную главу →</Link>)}
+              {topic.siteTopicIds.map((id) => <Link key={id} to={`${controlTopicIds.includes(id) ? '/control-topics' : '/topics'}/${id}`}>Открыть учебную главу →</Link>)}
             </div>
           </div>
         </li>

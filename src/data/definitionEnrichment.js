@@ -1,4 +1,4 @@
-import { definitionGuides } from './definitionGuides';
+import { definitionGuides } from './definitionGuides.js';
 
 // This file is deliberately a second, independent teaching layer. The short
 // exam-ready answers stay in definitionGuides; the material below supplies the
@@ -170,6 +170,33 @@ const TOPIC_META = {
   },
 };
 
+const CONTROL_TOPIC_META = {
+  'group-foundations': {
+    legend: [['$G,H$', 'группа и возможная подгруппа'], ['$e$', 'нейтральный элемент'], ['$g^{-1}$', 'обратный элемент']],
+    model: 'Представьте набор обратимых действий: действие можно соединить с другим, ничего не делать и отменить уже сделанное.',
+    why: 'Групповой язык позволяет одинаково рассуждать о числах, перестановках, матрицах и симметриях.',
+    second: 'Сравнивайте сложение целых, композицию перестановок и умножение обратимых матриц: внешне они различны, но аксиомы одни.',
+    prerequisites: ['множество', 'отображение', 'бинарная операция', 'ассоциативность', 'биекция'],
+  },
+  'cyclic-groups': {
+    legend: [[String.raw`$G=\langle g\rangle$`, 'циклическая группа с образующей'], [String.raw`$\operatorname{ord}(g)$`, 'порядок элемента'], ['$[G:H]$', 'индекс подгруппы']],
+    model: 'Думайте о циферблате: повторяем один шаг, пока впервые не вернёмся в начало; смежные классы делят циферблат на одинаковые блоки.',
+    why: 'Порядки, подгруппы и гомоморфизмы циклических групп сводятся к делимости, НОД и НОК.',
+    second: 'На Z₁₂ можно руками пройти степени элемента и увидеть и порядок, и подгруппу, и смежные классы.',
+    prerequisites: ['группа', 'степень элемента', 'делимость', 'НОД', 'биекция'],
+  },
+  'quotient-groups': {
+    legend: [[String.raw`$H\trianglelefteq G$`, 'нормальная подгруппа'], ['$gH$', 'смежный класс'], ['$G/H$', 'факторгруппа']],
+    model: 'Как в арифметике по модулю: несколько элементов объявляются одним классом, а нормальность гарантирует согласованность умножения классов.',
+    why: 'Факторгруппа и теорема о гомоморфизме точно описывают, какую информацию отображение теряет и какую сохраняет.',
+    second: 'Сначала проверяйте Z/nZ, затем переносите ту же схему на ядра гомоморфизмов и сопряжение.',
+    prerequisites: ['группа', 'подгруппа', 'гомоморфизм', 'ядро', 'смежный класс'],
+  },
+  'control-rings-fields': TOPIC_META['rings-fields'],
+  'quotient-rings': TOPIC_META['rings-fields'],
+  'control-vector-spaces': TOPIC_META['vector-spaces'],
+};
+
 function expandedChildExplanation(guide) {
   return [
     guide.simple,
@@ -187,8 +214,8 @@ function buildDefinitionEnrichment() {
 
   for (const [key, guide] of Object.entries(definitionGuides)) {
     const index = groupOffsets[guide.groupId] ?? 0;
-    const latexDefinition = LATEX_BY_GROUP[guide.groupId]?.[index];
-    const meta = TOPIC_META[guide.topicId];
+    const latexDefinition = LATEX_BY_GROUP[guide.groupId]?.[index] || (guide.groupId === 'definitions-control-2026' ? guide.formal : null);
+    const meta = TOPIC_META[guide.topicId] || CONTROL_TOPIC_META[guide.topicId];
     if (!latexDefinition || !meta) {
       throw new Error(`Missing definition enrichment source for ${key}`);
     }

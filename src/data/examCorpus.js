@@ -1,4 +1,6 @@
-export const corpusGroups = {
+import { controlCorpusGroups } from './controlCorpus.js';
+
+const historicalCorpusGroups = {
   "definitions": [
     {
       "id": "definitions-module-3",
@@ -650,4 +652,10 @@ export const corpusGroups = {
       ]
     }
   ]
+};
+
+export const corpusGroups = {
+  definitions: [...controlCorpusGroups.definitions, ...historicalCorpusGroups.definitions],
+  proofs: [...controlCorpusGroups.proofs, ...historicalCorpusGroups.proofs],
+  problems: [...controlCorpusGroups.problems, ...historicalCorpusGroups.problems],
 };

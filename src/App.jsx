@@ -7,6 +7,7 @@ const TopicsPage = lazy(() => import('./pages/TopicsPage'));
 const CollectionPage = lazy(() => import('./pages/CollectionPage'));
 const LecturesPage = lazy(() => import('./pages/LecturesPage'));
 const TopicPage = lazy(() => import('./pages/TopicPage'));
+const ControlTopicPage = lazy(() => import('./pages/ControlTopicPage'));
 const LectureDetailPage = lazy(() => import('./pages/LectureDetailPage'));
 const CorpusDetailPage = lazy(() => import('./pages/CorpusDetailPage'));
 const GlossaryPage = lazy(() => import('./pages/GlossaryPage'));
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/" element={<RoadmapPage />} />
           <Route path="/topics" element={<TopicsPage />} />
           <Route path="/topics/:slug" element={<TopicPage />} />
+          <Route path="/control-topics/:slug" element={<ControlTopicPage />} />
           <Route path="/definitions" element={<CollectionPage kind="definitions" />} />
           <Route path="/definitions/:groupId/:number" element={<CorpusDetailPage kind="definitions" />} />
           <Route path="/proofs" element={<CollectionPage kind="proofs" />} />

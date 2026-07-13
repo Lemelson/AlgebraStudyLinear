@@ -15,7 +15,7 @@ const links = [
 export default function SiteHeader() {
   return (
     <header className="site-header">
-      <NavLink to="/" className="wordmark">Алгебра <span>/ Экзамен</span></NavLink>
+      <NavLink to="/" className="wordmark">Алгебра <span>/ Подготовка</span></NavLink>
       <nav className="site-nav" aria-label="Основная навигация">
         {links.map(([to, label]) => (
           <NavLink key={to} to={to} end={to === '/'}>{label}</NavLink>

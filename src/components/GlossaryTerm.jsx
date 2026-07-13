@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { glossaryById } from '../data/glossary';
+import GlossaryEntryContent from './GlossaryEntryContent';
 
 const OPEN_DELAY = 850;
 const CLOSE_DELAY = 140;
@@ -15,27 +16,31 @@ export default function GlossaryTerm({ id, children }) {
   const [position, setPosition] = useState({ left: 20, top: 20 });
 
   useEffect(() => () => { clearTimeout(openTimer.current); clearTimeout(closeTimer.current); }, []);
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnEscape = (event) => { if (event.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [open]);
   if (!entry) return children;
 
   const place = () => {
     const box = anchorRef.current?.getBoundingClientRect();
     if (!box) return;
-    const width = Math.min(440, window.innerWidth - 24);
+    const width = Math.min(540, window.innerWidth - 24);
     const left = Math.max(12, Math.min(box.left + box.width / 2 - width / 2, window.innerWidth - width - 12));
     const roomBelow = window.innerHeight - box.bottom;
-    setPosition({ left, top: roomBelow > 330 ? box.bottom + 12 : Math.max(12, box.top - 322), width });
+    const estimatedHeight = Math.min(620, window.innerHeight - 24);
+    setPosition({ left, top: roomBelow > 380 ? box.bottom + 12 : Math.max(12, box.top - estimatedHeight - 12), width });
   };
   const scheduleOpen = () => { clearTimeout(closeTimer.current); clearTimeout(openTimer.current); openTimer.current = setTimeout(() => { place(); setOpen(true); }, OPEN_DELAY); };
   const scheduleClose = () => { clearTimeout(openTimer.current); closeTimer.current = setTimeout(() => setOpen(false), CLOSE_DELAY); };
   const openNow = () => { clearTimeout(openTimer.current); clearTimeout(closeTimer.current); place(); setOpen(true); };
 
-  const tooltip = open && createPortal(<aside className="glossary-popover" style={position} role="tooltip" onMouseEnter={() => clearTimeout(closeTimer.current)} onMouseLeave={scheduleClose}>
+  const tooltip = open && createPortal(<aside className="glossary-popover" style={position} role="dialog" aria-label={`Словарь: ${entry.term}`} onMouseEnter={() => clearTimeout(closeTimer.current)} onMouseLeave={scheduleClose}>
     <div className="glossary-popover-head"><span>Словарь · простыми словами</span><button onClick={() => setOpen(false)} aria-label="Закрыть подсказку">×</button></div>
     <h3>{entry.term}</h3>
-    <p className="glossary-short">{entry.short}</p>
-    <div className="glossary-child"><span>Простыми словами</span><p>{entry.child}</p></div>
-    <dl><div><dt>Аналогия</dt><dd>{entry.analogy}</dd></div><div><dt>Пример</dt><dd>{entry.example}</dd></div></dl>
-    {entry.notThis && <p className="glossary-warning"><strong>Не перепутать:</strong> {entry.notThis}</p>}
+    <GlossaryEntryContent entry={entry} compact />
     {entry.definitionLink && <Link to={entry.definitionLink} onClick={() => setOpen(false)}>Открыть полное определение →</Link>}
   </aside>, document.body);
 

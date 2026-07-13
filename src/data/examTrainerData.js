@@ -28,7 +28,7 @@ const officialMeta = [
   ['Эллиптический параболоид вращения', 'geometry', 'Базовый', 'foundation', [1]],
 ];
 
-const officialItems = corpusGroups.problems[0].items;
+const officialItems = corpusGroups.problems.find((group) => group.id === 'problems-exam').items;
 
 const typeLabels = {
   subspaces: 'Подпространства',

@@ -23,7 +23,7 @@ function renderMath(tex, displayMode) {
   }
 }
 
-function renderMarkup(source) {
+function renderMarkup(source, inline = false) {
   let html = String(source ?? '');
   const placeholders = [];
 
@@ -64,10 +64,14 @@ function renderMarkup(source) {
   html = html.replace(/(<br\/>|<\/p><p>)- /g,
     '$1<span style="margin-right: 4px; color: var(--text-accent);">•</span> ');
 
-  html = `<p>${html}</p>`;
-  html = html.replace(/<p>\s*(<h[1-6].*?>.*?<\/h[1-6]>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*(<hr.*?>)\s*<\/p>/g, '$1');
-  html = html.replace(/<p>\s*<\/p>/g, '');
+  if (inline) {
+    html = html.replace(/<\/p><p>|<br\/>/g, ' ');
+  } else {
+    html = `<p>${html}</p>`;
+    html = html.replace(/<p>\s*(<h[1-6].*?>.*?<\/h[1-6]>)\s*<\/p>/g, '$1');
+    html = html.replace(/<p>\s*(<hr.*?>)\s*<\/p>/g, '$1');
+    html = html.replace(/<p>\s*<\/p>/g, '');
+  }
   html = html.replace(/✓/g, '<span style="color: var(--success); font-weight: 700;">✓</span>');
   html = html.replace(/✗/g, '<span style="color: var(--danger); font-weight: 700;">✗</span>');
 
@@ -80,11 +84,12 @@ function renderMarkup(source) {
 
 // Renders mixed Russian prose and inline/display LaTeX, plus the small Markdown
 // subset used in the study materials.
-export default function MathText({ text, className = '' }) {
-  const html = useMemo(() => renderMarkup(text), [text]);
+export default function MathText({ text, className = '', inline = false }) {
+  const html = useMemo(() => renderMarkup(text, inline), [text, inline]);
+  const Element = inline ? 'span' : 'div';
 
   return (
-    <div
+    <Element
       className={`math-text ${className}`.trim()}
       dangerouslySetInnerHTML={{ __html: html }}
     />
